@@ -6,7 +6,7 @@
     }
   },
   "outputDirectory": "public",
-  "buildCommand": "composer install --no-dev --optimize-autoloader && php artisan storage:link || true",
+  "buildCommand": "composer install --no-dev --optimize-autoloader",
   "routes": [
     {
       "src": "/(.*)",
