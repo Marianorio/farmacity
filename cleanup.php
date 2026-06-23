@@ -32,3 +32,19 @@ foreach ($fontDirs as $f) {
     unlink($f);
     echo "Removed font: $f\n";
 }
+
+// Remove fontawesome webfonts from public/vendor (load from CDN instead)
+$webfontDir = 'public/vendor/fontawesome-free/webfonts';
+if (is_dir($webfontDir)) {
+    $it = new RecursiveDirectoryIterator($webfontDir, RecursiveDirectoryIterator::SKIP_DOTS);
+    $files = new RecursiveIteratorIterator($it, RecursiveIteratorIterator::CHILD_FIRST);
+    foreach ($files as $file) {
+        if ($file->isDir()) {
+            rmdir($file->getRealPath());
+        } else {
+            unlink($file->getRealPath());
+        }
+    }
+    rmdir($webfontDir);
+    echo "Removed: $webfontDir\n";
+}

@@ -6,6 +6,7 @@
     }
   },
   "outputDirectory": "public",
+  "buildCommand": "VERCEL_ANALYZE_BUILD_OUTPUT=1 composer install --no-dev --optimize-autoloader && php cleanup.php",
   "routes": [
     {
       "src": "/(.*)",
