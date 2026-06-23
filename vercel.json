@@ -19,6 +19,5 @@
       "dest": "/api/index.php"
     }
   ],
-  "cleanUrls": true,
-  "public": false
+  "cleanUrls": true
 }
