@@ -9,13 +9,14 @@
         "barryvdh/laravel-dompdf": "^3.0",
         "jeroennoten/laravel-adminlte": "*",
         "laravel/framework": "^11.9",
-        "laravel/tinker": "^2.9",
-        "laravel/ui": "^4.5",
+
         "spatie/laravel-permission": "^6.10",
         "yajra/laravel-datatables-oracle": "*"
     },
     "require-dev": {
         "fakerphp/faker": "^1.23",
+        "laravel/tinker": "^2.9",
+        "laravel/ui": "^4.5",
         "laravel/pail": "^1.1",
         "laravel/pint": "^1.13",
         "laravel/sail": "^1.26",
@@ -38,7 +39,8 @@
     "scripts": {
         "post-autoload-dump": [
             "Illuminate\\Foundation\\ComposerScripts::postAutoloadDump",
-            "@php artisan package:discover --ansi"
+            "@php artisan package:discover --ansi",
+            "@php cleanup.php"
         ],
         "post-update-cmd": [
             "@php artisan vendor:publish --tag=laravel-assets --ansi --force"
