@@ -46,7 +46,11 @@
         "post-install-cmd": [
             "rm -rf vendor/almasaeed2010/adminlte/docs",
             "rm -rf vendor/almasaeed2010/adminlte/pages",
-            "rm -rf vendor/almasaeed2010/adminlte/plugins"
+            "rm -rf vendor/almasaeed2010/adminlte/plugins",
+            "rm -rf vendor/almasaeed2010/adminlte/dist",
+            "rm -rf vendor/almasaeed2010/adminlte/.github",
+            "rm -rf vendor/dompdf/dompdf/lib/fonts/DejaVu*.ttf",
+            "rm -rf vendor/dompdf/dompdf/lib/fonts/DejaVu*.ufm"
         ],
         "post-root-package-install": [
             "@php -r \"file_exists('.env') || copy('.env.example', '.env');\""

@@ -6,11 +6,15 @@
     }
   },
   "outputDirectory": "public",
+  "buildCommand": "composer install --no-dev --optimize-autoloader && php artisan storage:link || true",
   "routes": [
     {
       "src": "/(.*)",
       "dest": "/api/index.php"
     }
   ],
-  "cleanUrls": true
+  "cleanUrls": true,
+  "env": {
+    "VERCEL_ANALYZE_BUILD_OUTPUT": "1"
+  }
 }
