@@ -6,7 +6,6 @@
     }
   },
   "outputDirectory": "public",
-  "buildCommand": "composer install --no-dev --optimize-autoloader",
   "routes": [
     {
       "src": "/(.*)",
