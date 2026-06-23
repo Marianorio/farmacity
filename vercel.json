@@ -1,0 +1,24 @@
+{
+  "version": 2,
+  "functions": {
+    "api/index.php": {
+      "runtime": "vercel-php@0.7.0"
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)\\.(css|js|png|jpg|jpeg|gif|ico|svg|woff|woff2|ttf|eot|map|webp|avif|json)$",
+      "dest": "/public/$1"
+    },
+    {
+      "src": "/(storage)/(.*)",
+      "dest": "/public/storage/$2"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/api/index.php"
+    }
+  ],
+  "cleanUrls": true,
+  "public": false
+}
