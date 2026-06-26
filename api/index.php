@@ -5,6 +5,10 @@ define('LARAVEL_START', microtime(true));
 $_ENV['APP_DEBUG'] = 'true';
 $_ENV['APP_ENV'] = 'local';
 
+// Force HTTPS so asset() generates https:// URLs on Vercel
+$_SERVER['HTTPS'] = 'on';
+$_SERVER['SERVER_PORT'] = 443;
+
 error_reporting(E_ALL & ~E_DEPRECATED);
 
 // Register the Composer autoloader...
