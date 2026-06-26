@@ -2,6 +2,11 @@
 
 define('LARAVEL_START', microtime(true));
 
+$_ENV['APP_DEBUG'] = 'true';
+$_ENV['APP_ENV'] = 'local';
+
+error_reporting(E_ALL & ~E_DEPRECATED);
+
 // Register the Composer autoloader...
 require __DIR__.'/../vendor/autoload.php';
 
