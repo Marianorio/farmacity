@@ -1,75 +1,101 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Reporte de Ventas</title>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
-        th, td { border: 1px solid #ddd; padding: 8px; text-align: left; }
-        th { background-color: #f2f2f2; }
-        .header { margin-bottom: 20px; }
-        .totales { margin-top: 20px; }
-        .total { font-weight: bold; }
-    </style>
-</head>
-<body>
-    <div class="header">
-        <h1>Reporte de Ventas</h1>
-        <p>Período: {{ $fecha_inicio ?? 'Todas las fechas' }} - {{ $fecha_fin ?? 'Hasta hoy' }}</p>
+@extends('adminlte::page')
+
+@section('title', 'Reporte de Ventas')
+
+@section('content_header')
+    <h1>Reporte de Ventas</h1>
+    <p class="text-muted">Período: {{ $fecha_inicio ?? 'Todas las fechas' }} - {{ $fecha_fin ?? 'Hasta hoy' }}</p>
+@stop
+
+@section('content')
+    <div class="row">
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-info">
+                <div class="inner">
+                    <h3>{{ $totales['total_ventas'] }}</h3>
+                    <p>Total de Ventas</p>
+                </div>
+                <div class="icon"><i class="fas fa-shopping-cart"></i></div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-success">
+                <div class="inner">
+                    <h3>${{ number_format($totales['monto_total'], 2) }}</h3>
+                    <p>Monto Total</p>
+                </div>
+                <div class="icon"><i class="fas fa-dollar-sign"></i></div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-warning">
+                <div class="inner">
+                    <h3>${{ number_format($totales['total_descuentos'], 2) }}</h3>
+                    <p>Total Descuentos</p>
+                </div>
+                <div class="icon"><i class="fas fa-tags"></i></div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-6">
+            <div class="small-box bg-danger">
+                <div class="inner">
+                    <h3>${{ number_format($totales['total_impuestos'], 2) }}</h3>
+                    <p>Total Impuestos</p>
+                </div>
+                <div class="icon"><i class="fas fa-receipt"></i></div>
+            </div>
+        </div>
     </div>
 
-    <div class="totales">
-        <h3>Resumen</h3>
-        <p>Total de Ventas: {{ $totales['total_ventas'] }}</p>
-        <p>Monto Total: ${{ number_format($totales['monto_total'], 2) }}</p>
-        <p>Total Descuentos: ${{ number_format($totales['total_descuentos'], 2) }}</p>
-        <p>Total Impuestos: ${{ number_format($totales['total_impuestos'], 2) }}</p>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title">Detalle de Ventas</h3>
+        </div>
+        <div class="card-body table-responsive p-0">
+            <table class="table table-hover table-striped">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Fecha</th>
+                        <th>Cliente</th>
+                        <th>Productos</th>
+                        <th>Subtotal</th>
+                        <th>Descuento</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Usuario</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($ventas as $venta)
+                    <tr>
+                        <td>{{ $venta->id }}</td>
+                        <td>{{ $venta->fecha->format('d/m/Y H:i') }}</td>
+                        <td>{{ $venta->numero_cliente }}</td>
+                        <td>
+                            @foreach($venta->detalles as $detalle)
+                                <span class="badge badge-info">{{ $detalle->producto->nombre }} x{{ $detalle->cantidad }}</span><br>
+                            @endforeach
+                        </td>
+                        <td>${{ number_format($venta->subtotal, 2) }}</td>
+                        <td>${{ number_format($venta->descuento, 2) }}</td>
+                        <td>${{ number_format($venta->total, 2) }}</td>
+                        <td>
+                            @if($venta->estado === 'ANULADA')
+                                <span class="badge badge-danger">ANULADA</span>
+                            @else
+                                <span class="badge badge-success">COMPLETADA</span>
+                            @endif
+                        </td>
+                        <td>{{ $venta->usuario->name ?? 'N/A' }}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="9" class="text-center">No hay ventas registradas</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <h3>Detalle de Ventas</h3>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Fecha</th>
-                <th>Cliente</th>
-                <th>Productos</th>
-                <th>Subtotal</th>
-                <th>Descuento</th>
-                <th>Total</th>
-                <th>Estado</th>
-                <th>Usuario</th>
-                <th>Usuario Anulación</th>
-                <th>Fecha Anulación</th>
-                <th>Motivo Anulación</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($ventas as $venta)
-            <tr>
-                <td>{{ $venta->id }}</td>
-                <td>{{ $venta->fecha->format('d/m/Y H:i') }}</td>
-                <td>{{ $venta->numero_cliente }}</td>
-                <td>
-                    @foreach($venta->detalles as $detalle)
-                        {{ $detalle->producto->nombre }} ({{ $detalle->cantidad }})<br>
-                    @endforeach
-                </td>
-                <td>${{ number_format($venta->subtotal, 2) }}</td>
-                <td>${{ number_format($venta->descuento, 2) }}</td>
-                <td>${{ number_format($venta->total, 2) }}</td>
-                <td>{{ $venta->estado }}</td>
-                <td>{{ $venta->usuario->name ?? 'N/A' }}</td>
-                @if($venta->estado === 'ANULADA')
-                    <td>
-                        Anulada por: {{ $venta->usuarioAnulacion->name ?? 'N/A' }}<br>
-                        Fecha: {{ $venta->fecha_anulacion }}<br>
-                        Motivo: {{ $venta->motivo_anulacion }}
-                    </td>
-                @endif
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
-</body>
-</html>
+@stop

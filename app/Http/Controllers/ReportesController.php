@@ -17,7 +17,21 @@ class ReportesController extends Controller
 
     public function index()
     {
-        return view('reportes.reportes');
+        $ventas = \App\Models\Venta::with('detalles.producto', 'usuario')
+            ->orderBy('fecha', 'desc')
+            ->get();
+
+        $totales = [
+            'total_ventas' => $ventas->count(),
+            'monto_total' => $ventas->sum('total'),
+            'total_descuentos' => $ventas->sum('descuento'),
+            'total_impuestos' => 0,
+        ];
+
+        $fecha_inicio = null;
+        $fecha_fin = null;
+
+        return view('reportes.reportes', compact('ventas', 'totales', 'fecha_inicio', 'fecha_fin'));
     }
 
     public function getObrasSociales()
