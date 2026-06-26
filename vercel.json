@@ -5,37 +5,13 @@
       "runtime": "vercel-php@0.9.0"
     }
   },
+  "outputDirectory": "public",
   "routes": [
-    {
-      "src": "/build/(.*)",
-      "dest": "/public/build/$1"
-    },
-    {
-      "src": "/vendor/(.*)",
-      "dest": "/public/vendor/$1"
-    },
-    {
-      "src": "/css/(.*)",
-      "dest": "/public/css/$1"
-    },
-    {
-      "src": "/js/(.*)",
-      "dest": "/public/js/$1"
-    },
-    {
-      "src": "/img/(.*)",
-      "dest": "/public/img/$1"
-    },
-    {
-      "src": "/favicon.ico",
-      "dest": "/public/favicon.ico"
-    },
     {
       "src": "/(.*)",
       "dest": "/api/index.php"
     }
   ],
-  "cleanUrls": true,
   "env": {
     "VERCEL_ANALYZE_BUILD_OUTPUT": "1"
   }
