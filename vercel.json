@@ -6,7 +6,6 @@
     }
   },
   "outputDirectory": "public",
-  "buildCommand": "php -r \"copy('https://getcomposer.org/download/latest-stable/composer.phar', 'composer.phar');\" && php composer.phar install --no-dev --optimize-autoloader && php cleanup.php && rm composer.phar",
   "routes": [
     {
       "src": "/(.*)",
